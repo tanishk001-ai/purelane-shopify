@@ -1,5 +1,43 @@
 {
   "sections": {
+    "purelane_hero": {
+      "type": "hero",
+      "blocks": {
+        "badge_1": {
+          "type": "badge",
+          "settings": { "icon": "leaf", "label": "Plant<br>powered" }
+        },
+        "badge_2": {
+          "type": "badge",
+          "settings": { "icon": "shield", "label": "Safe for<br>kids &amp; pets" }
+        },
+        "badge_3": {
+          "type": "badge",
+          "settings": { "icon": "spark", "label": "Zero harsh<br>chemicals" }
+        },
+        "stage_1": {
+          "type": "stage_product",
+          "settings": { "label": "Single bottle" }
+        },
+        "stage_2": {
+          "type": "stage_product",
+          "settings": { "label": "Any 2 products", "badge_text": "" }
+        },
+        "stage_3": {
+          "type": "stage_product",
+          "settings": { "label": "Any 3 products", "badge_text": "" }
+        }
+      },
+      "block_order": ["badge_1", "badge_2", "badge_3", "stage_1", "stage_2", "stage_3"],
+      "settings": {
+        "heading": "Clean<br>That<br><em>Lasts</em>",
+        "subheading": "Homecare that works on the toughest grime, made from plants. Kind to your home, your family and the world outside it.",
+        "primary_button_label": "Shop now",
+        "primary_button_link": "#shop",
+        "secondary_button_label": "How it works",
+        "secondary_button_link": "#how"
+      }
+    },
     "image_banner": {
       "type": "image-banner",
       "blocks": {
@@ -69,6 +107,7 @@
     }
   },
   "order": [
+    "purelane_hero",
     "image_banner",
     "featured_collection"
   ]
