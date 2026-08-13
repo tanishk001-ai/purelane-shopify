@@ -31,7 +31,7 @@
     assign badge_label = product.metafields.custom.card_badge.value
   endif
 
-  assign rating = product.metafields.reviews.rating.value
+  assign rating_obj = product.metafields.reviews.rating.value
   assign rating_count = product.metafields.reviews.rating_count.value
 
   assign cta = button_label | default: 'Add to cart'
@@ -66,9 +66,9 @@
     <a href="{{ product.url }}">{{ product.title }}</a>
   </h3>
 
-  {%- if show_rating and rating != blank -%}
+  {%- if show_rating and rating_obj != blank -%}
     <div class="pl-card__rate">
-      <b>&#9733; {{ rating | round: 1 }}</b>
+      <b>&#9733; {{ rating_obj.rating | round: 1 }}</b>
       {%- if rating_count != blank -%}
         <span>&middot; {{ rating_count }} {{ rating_count | pluralize: 'review', 'reviews' }}</span>
       {%- endif -%}
