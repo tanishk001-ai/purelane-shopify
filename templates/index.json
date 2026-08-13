@@ -6,9 +6,9 @@
         "badge_1": { "type": "badge", "settings": { "icon": "leaf", "label": "Plant<br>powered" } },
         "badge_2": { "type": "badge", "settings": { "icon": "shield", "label": "Safe for<br>kids &amp; pets" } },
         "badge_3": { "type": "badge", "settings": { "icon": "spark", "label": "Zero harsh<br>chemicals" } },
-        "stage_1": { "type": "stage_product", "settings": { "label": "Single bottle" } },
-        "stage_2": { "type": "stage_product", "settings": { "label": "Any 2 products" } },
-        "stage_3": { "type": "stage_product", "settings": { "label": "Any 3 products" } }
+        "stage_1": { "type": "stage_product", "settings": { "label": "Single bottle", "product": "kitchen-cleaner" } },
+        "stage_2": { "type": "stage_product", "settings": { "label": "Any 2 products", "product": "dishwash-gel" } },
+        "stage_3": { "type": "stage_product", "settings": { "label": "Any 3 products", "product": "tap-cleaner" } }
       },
       "block_order": ["badge_1", "badge_2", "badge_3", "stage_1", "stage_2", "stage_3"],
       "settings": {
@@ -93,7 +93,11 @@
             "description": "Everything for a sparkling kitchen, no need to pick separately.",
             "flag": "Most popular",
             "button_label": "Shop bundle",
-            "fine_print": "Inclusive of all taxes"
+            "fine_print": "Inclusive of all taxes",
+            "bundle_product": "combo-kitchen-essentials",
+            "product_1": "kitchen-cleaner",
+            "product_2": "dishwash-gel",
+            "product_3": "tap-cleaner"
           }
         },
         "combo_2": {
@@ -102,7 +106,11 @@
             "title": "Laundry care bundle",
             "description": "Softer, fresher wash, all in one box.",
             "button_label": "Shop bundle",
-            "fine_print": "Inclusive of all taxes"
+            "fine_print": "Inclusive of all taxes",
+            "bundle_product": "combo-laundry-care",
+            "product_1": "laundry-detergent",
+            "product_2": "wm-descaler",
+            "product_3": "floor-cleaner"
           }
         },
         "combo_3": {
@@ -113,7 +121,13 @@
             "flag": "Best value",
             "highlight": true,
             "button_label": "Shop bundle",
-            "fine_print": "Inclusive of all taxes"
+            "fine_print": "Inclusive of all taxes",
+            "bundle_product": "combo-complete-home",
+            "product_1": "kitchen-cleaner",
+            "product_2": "laundry-detergent",
+            "product_3": "floor-cleaner",
+            "product_4": "handwash",
+            "product_5": "magic-eraser"
           }
         },
         "combo_4": {
@@ -122,7 +136,11 @@
             "title": "Bathroom deep clean",
             "description": "A complete bathroom refresh in one box.",
             "button_label": "Shop bundle",
-            "fine_print": "Inclusive of all taxes"
+            "fine_print": "Inclusive of all taxes",
+            "bundle_product": "combo-bathroom",
+            "product_1": "toilet-cleaner",
+            "product_2": "tap-cleaner",
+            "product_3": "magic-eraser"
           }
         }
       },
@@ -144,7 +162,10 @@
             "tag": "Starter",
             "quantity": 2,
             "features": "Pick any two products\nFree shipping across India",
-            "button_label": "Build this box"
+            "button_label": "Build this box",
+            "bundle_product": "bundle-any-2",
+            "image_product_1": "kitchen-cleaner",
+            "image_product_2": "dishwash-gel"
           }
         },
         "tier_2": {
@@ -154,7 +175,11 @@
             "quantity": 3,
             "highlight": true,
             "features": "Pick any three products\nCovers kitchen and laundry\nFree shipping across India",
-            "button_label": "Build this box"
+            "button_label": "Build this box",
+            "bundle_product": "bundle-any-3",
+            "image_product_1": "kitchen-cleaner",
+            "image_product_2": "dishwash-gel",
+            "image_product_3": "tap-cleaner"
           }
         },
         "tier_3": {
@@ -163,7 +188,13 @@
             "tag": "Whole home",
             "quantity": 5,
             "features": "Pick any five products\nEvery room in one order\nFree shipping across India",
-            "button_label": "Build this box"
+            "button_label": "Build this box",
+            "bundle_product": "bundle-any-5",
+            "image_product_1": "kitchen-cleaner",
+            "image_product_2": "dishwash-gel",
+            "image_product_3": "tap-cleaner",
+            "image_product_4": "laundry-detergent",
+            "image_product_5": "handwash"
           }
         }
       },
