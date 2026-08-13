@@ -3,9 +3,9 @@
     "hero": {
       "type": "hero",
       "blocks": {
-        "s1": { "type": "stage", "settings": { "label": "Kitchen cleaner" } },
-        "s2": { "type": "stage", "settings": { "label": "Dishwash gel" } },
-        "s3": { "type": "stage", "settings": { "label": "Tap cleaner" } },
+        "s1": { "type": "stage", "settings": { "label": "Kitchen cleaner", "product": "kitchen-cleaner" } },
+        "s2": { "type": "stage", "settings": { "label": "Dishwash gel", "product": "dishwash-gel" } },
+        "s3": { "type": "stage", "settings": { "label": "Tap cleaner", "product": "tap-cleaner" } },
         "t1": { "type": "trust", "settings": { "title": "Plant powered", "body": "Coconut and corn derived, never petrochemical." } },
         "t2": { "type": "trust", "settings": { "title": "Safe around the house", "body": "No bleach, no ammonia, nothing to hide from a toddler." } },
         "t3": { "type": "trust", "settings": { "title": "Refill, don't rebuy", "body": "Every bottle built to fill again." } },
@@ -59,10 +59,10 @@
     "combos": {
       "type": "combos",
       "blocks": {
-        "c1": { "type": "combo", "settings": { "title": "Kitchen essentials", "description": "Foaming cleaner, dishwash gel and tap spray. The three that get used daily." } },
-        "c2": { "type": "combo", "settings": { "title": "Laundry care", "description": "Detergent plus the descaler that stops your machine quietly furring up." } },
-        "c3": { "type": "combo", "settings": { "title": "Bathroom reset", "description": "A full bathroom clean, including the eraser that handles grout." } },
-        "c4": { "type": "combo", "settings": { "title": "Complete home", "description": "Our largest set. Kitchen, laundry, bathroom and hands in one order." } }
+        "c1": { "type": "combo", "settings": { "title": "Kitchen essentials", "description": "Foaming cleaner, dishwash gel and tap spray. The three that get used daily.", "bundle_product": "combo-kitchen-essentials", "product_1": "kitchen-cleaner", "product_2": "dishwash-gel", "product_3": "tap-cleaner" } },
+        "c2": { "type": "combo", "settings": { "title": "Laundry care", "description": "Detergent plus the descaler that stops your machine quietly furring up.", "bundle_product": "combo-laundry-care", "product_1": "laundry-detergent", "product_2": "wm-descaler", "product_3": "floor-cleaner" } },
+        "c3": { "type": "combo", "settings": { "title": "Bathroom reset", "description": "A full bathroom clean, including the eraser that handles grout.", "bundle_product": "combo-bathroom", "product_1": "toilet-cleaner", "product_2": "tap-cleaner", "product_3": "magic-eraser" } },
+        "c4": { "type": "combo", "settings": { "title": "Complete home", "description": "Our largest set. Kitchen, laundry, bathroom and hands in one order.", "bundle_product": "combo-complete-home", "product_1": "kitchen-cleaner", "product_2": "laundry-detergent", "product_3": "floor-cleaner", "product_4": "handwash", "product_5": "magic-eraser" } }
       },
       "block_order": ["c1", "c2", "c3", "c4"],
       "settings": { "kicker": "Pre-built sets", "heading": "Bought together,<br>priced together", "hint": "Swipe for more →" }
@@ -70,9 +70,9 @@
     "bundles": {
       "type": "bundles",
       "blocks": {
-        "b1": { "type": "tier", "settings": { "tag": "Starter", "quantity": 2, "features": "Any two products\nFree shipping across India" } },
-        "b2": { "type": "tier", "settings": { "tag": "Most chosen", "quantity": 3, "highlight": true, "features": "Any three products\nCovers kitchen and laundry\nFree shipping across India" } },
-        "b3": { "type": "tier", "settings": { "tag": "Whole home", "quantity": 5, "features": "Any five products\nEvery room in one order\nFree shipping across India" } }
+        "b1": { "type": "tier", "settings": { "tag": "Starter", "quantity": 2, "features": "Any two products\nFree shipping across India", "bundle_product": "bundle-any-2" } },
+        "b2": { "type": "tier", "settings": { "tag": "Most chosen", "quantity": 3, "highlight": true, "features": "Any three products\nCovers kitchen and laundry\nFree shipping across India", "bundle_product": "bundle-any-3" } },
+        "b3": { "type": "tier", "settings": { "tag": "Whole home", "quantity": 5, "features": "Any five products\nEvery room in one order\nFree shipping across India", "bundle_product": "bundle-any-5" } }
       },
       "block_order": ["b1", "b2", "b3"],
       "settings": { "kicker": "Build your own", "heading": "Pick the products,<br>we'll price the box", "description": "Mix across kitchen, laundry, home and skin. One flat price, free shipping either way." }
