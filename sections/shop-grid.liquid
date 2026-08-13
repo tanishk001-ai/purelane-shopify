@@ -1,3 +1,5 @@
+{{ 'purelane.css' | asset_url | stylesheet_tag }}
+
 {%- liquid
   assign collection = section.settings.collection
   assign limit = section.settings.products_to_show

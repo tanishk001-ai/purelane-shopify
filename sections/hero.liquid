@@ -1,3 +1,5 @@
+{{ 'purelane.css' | asset_url | stylesheet_tag }}
+
 {%- liquid
   assign stage_blocks = section.blocks | where: 'type', 'stage_product'
   assign badge_blocks = section.blocks | where: 'type', 'badge'
