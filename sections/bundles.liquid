@@ -30,19 +30,6 @@
           if qty > 0
             assign per_unit = variant.price | divided_by: qty
           endif
-
-          capture image_handles
-            echo block.settings.image_product_1.handle
-            echo '|'
-            echo block.settings.image_product_2.handle
-            echo '|'
-            echo block.settings.image_product_3.handle
-            echo '|'
-            echo block.settings.image_product_4.handle
-            echo '|'
-            echo block.settings.image_product_5.handle
-          endcapture
-          assign image_list = image_handles | split: '|'
         -%}
 
         <li {{ block.shopify_attributes }}>
@@ -52,16 +39,15 @@
             {%- endif -%}
 
             <div class="pl-tierpix{% if qty >= 5 %} pl-tierpix--five{% endif %}" aria-hidden="true">
-              {%- for handle in image_list -%}
-                {%- if handle != blank -%}
-                  {%- assign p = all_products[handle] -%}
-                  {%- if p != blank and p.featured_image != blank -%}
-                    {{
-                      p.featured_image
-                      | image_url: width: 140
-                      | image_tag: loading: 'lazy', widths: '70, 105, 140', sizes: '70px', alt: ''
-                    }}
-                  {%- endif -%}
+              {%- for i in (1..5) -%}
+                {%- assign key = 'image_product_' | append: i -%}
+                {%- assign p = block.settings[key] -%}
+                {%- if p != blank and p.featured_image != blank -%}
+                  {{
+                    p.featured_image
+                    | image_url: width: 140
+                    | image_tag: loading: 'lazy', widths: '70, 105, 140', sizes: '70px', alt: ''
+                  }}
                 {%- endif -%}
               {%- endfor -%}
             </div>

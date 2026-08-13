@@ -26,30 +26,18 @@
           assign variant = bundle.selected_or_first_available_variant
 
           # Component products drive both the image stack and the honest
-          # comparison price. Captured as a delimited handle list so the five
-          # pickers are written once and then looped over.
-          capture handle_string
-            echo block.settings.product_1.handle
-            echo '|'
-            echo block.settings.product_2.handle
-            echo '|'
-            echo block.settings.product_3.handle
-            echo '|'
-            echo block.settings.product_4.handle
-            echo '|'
-            echo block.settings.product_5.handle
-          endcapture
-          assign handles = handle_string | split: '|'
-
+          # comparison price. Read straight off the block's own product-picker
+          # settings rather than looking handles up via all_products, which
+          # caps at 20 lookups per page and was silently dropping components
+          # past that limit.
           assign component_total = 0
           assign component_count = 0
-          for handle in handles
-            if handle != blank
-              assign component = all_products[handle]
-              if component != blank
-                assign component_total = component_total | plus: component.price
-                assign component_count = component_count | plus: 1
-              endif
+          for i in (1..5)
+            assign key = 'product_' | append: i
+            assign component = block.settings[key]
+            if component != blank
+              assign component_total = component_total | plus: component.selected_or_first_available_variant.price
+              assign component_count = component_count | plus: 1
             endif
           endfor
 
@@ -70,28 +58,27 @@
               {%- endif -%}
 
               <div class="pl-stack">
-                {%- for handle in handles -%}
-                  {%- if handle != blank -%}
-                    {%- assign component = all_products[handle] -%}
-                    {%- if component != blank -%}
-                      {%- unless forloop.first -%}
-                        <span class="pl-stack__plus" aria-hidden="true">+</span>
-                      {%- endunless -%}
-                      <span class="pl-stack__it">
-                        {%- if component.featured_image != blank -%}
-                          {{
-                            component.featured_image
-                            | image_url: width: 160
-                            | image_tag: loading: 'lazy', widths: '80, 120, 160', sizes: '80px', alt: component.title
-                          }}
-                        {%- else -%}
-                          <span class="pl-stack__tile" role="img" aria-label="{{ component.title }}">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
-                          </span>
-                        {%- endif -%}
-                        <span>{{ component.title }}</span>
-                      </span>
-                    {%- endif -%}
+                {%- for i in (1..5) -%}
+                  {%- assign key = 'product_' | append: i -%}
+                  {%- assign component = block.settings[key] -%}
+                  {%- if component != blank -%}
+                    {%- unless forloop.first -%}
+                      <span class="pl-stack__plus" aria-hidden="true">+</span>
+                    {%- endunless -%}
+                    <span class="pl-stack__it">
+                      {%- if component.featured_image != blank -%}
+                        {{
+                          component.featured_image
+                          | image_url: width: 160
+                          | image_tag: loading: 'lazy', widths: '80, 120, 160', sizes: '80px', alt: component.title
+                        }}
+                      {%- else -%}
+                        <span class="pl-stack__tile" role="img" aria-label="{{ component.title }}">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
+                        </span>
+                      {%- endif -%}
+                      <span>{{ component.title }}</span>
+                    </span>
                   {%- endif -%}
                 {%- endfor -%}
               </div>
