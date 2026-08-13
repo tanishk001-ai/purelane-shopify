@@ -1,0 +1,26 @@
+PURELANE PRODUCT IMAGES
+Extracted from the supplied purelane-homepage.html (they were embedded as
+base64 SVG in the CSS) and converted to transparent PNG, since Shopify does
+not accept SVG for product images.
+
+Map each file to the product with the matching handle:
+
+  tap.png       -> tap-cleaner
+  kitchen.png   -> kitchen-cleaner
+  metal.png     -> metal-cleaner
+  wm.png        -> wm-descaler
+  dish.png      -> dishwash-gel
+  laundry.png   -> laundry-detergent
+  eraser.png    -> magic-eraser
+  floor.png     -> floor-cleaner          (the SOLD OUT product)
+  handwash.png  -> handwash               (the LONG TITLE product)
+  combo2.png    -> bundle-any-2
+  kbtl.png      -> combo-kitchen-essentials
+  tbtl.png      -> combo-laundry-care
+  mbtl.png      -> combo-complete-home
+
+  toilet.png    -> DO NOT UPLOAD.
+                   toilet-cleaner is deliberately left with no image, because
+                   the brief asks for a product with no image as an edge case.
+                   The file is included only so you can add it later if you
+                   want to see the card in its normal state.
