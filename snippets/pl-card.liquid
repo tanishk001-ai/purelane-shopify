@@ -1,0 +1,76 @@
+{% comment %}
+  Purelane redesign product card.
+
+  Shared by the Shop grid so the card exists in one place. Category colour is
+  read from the product's `custom.tone` metafield, which is what gives the grid
+  its chroma while keeping the colour meaningful rather than decorative.
+
+  Accepts:
+  - product: {Object} required
+  - show_rating: {Boolean}
+{% endcomment %}
+
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign compare = v.compare_at_price
+  assign tone = product.metafields.custom.tone.value | default: 'forest'
+  assign badge = product.metafields.custom.card_badge.value
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value
+-%}
+
+<article class="card">
+  <div class="card__shot t-{{ tone }}">
+    {%- if product.available == false -%}
+      <span class="flag flag--out">Sold out</span>
+    {%- elsif badge != blank -%}
+      <span class="flag{% if badge == 'New' %} flag--new{% endif %}">{{ badge }}</span>
+    {%- endif -%}
+
+    {%- if product.featured_image != blank -%}
+      {{
+        product.featured_image
+        | image_url: width: 500
+        | image_tag: loading: 'lazy', widths: '200, 320, 500', sizes: '(min-width:1000px) 280px, 45vw', alt: product.featured_image.alt | default: product.title
+      }}
+    {%- else -%}
+      {%- comment -%}
+        No image on the product. Rather than a blank tile, label it and keep the
+        aspect ratio so the row never collapses.
+      {%- endcomment -%}
+      <div class="card__empty">Photography<br>in progress</div>
+    {%- endif -%}
+  </div>
+
+  <h3><a href="{{ product.url }}" style="text-decoration:none">{{ product.title }}</a></h3>
+
+  {%- if show_rating and rating != blank -%}
+    <div class="rate">
+      <b>&#9733; {{ rating | round: 1 }}</b>
+      {%- if rating_count != blank %} &middot; {{ rating_count }} {{ rating_count | pluralize: 'review', 'reviews' }}{% endif -%}
+    </div>
+  {%- endif -%}
+
+  <div class="price">
+    <b>{{ v.price | money }}</b>
+    {%- if compare > v.price -%}
+      <s>{{ compare | money }}</s>
+      {%- assign off = compare | minus: v.price | times: 100.0 | divided_by: compare | round -%}
+      <em>{{ off }}% off</em>
+    {%- endif -%}
+  </div>
+
+  {%- if product.available -%}
+    {%- form 'product', product, class: 'pl-form' -%}
+      <input type="hidden" name="id" value="{{ v.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <button type="submit" class="btn btn--line btn--sm">
+        Add to cart<span class="visually-hidden"> - {{ product.title }}</span>
+      </button>
+    {%- endform -%}
+  {%- else -%}
+    <button type="button" class="btn btn--line btn--sm" disabled style="opacity:.45">
+      Sold out<span class="visually-hidden"> - {{ product.title }}</span>
+    </button>
+  {%- endif -%}
+</article>

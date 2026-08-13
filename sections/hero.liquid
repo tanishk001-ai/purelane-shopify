@@ -1,275 +1,121 @@
 {{ 'purelane.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
-  assign stage_blocks = section.blocks | where: 'type', 'stage_product'
-  assign badge_blocks = section.blocks | where: 'type', 'badge'
-  assign stage_count = stage_blocks.size
+  assign stage = section.blocks | where: 'type', 'stage'
+  assign trust = section.blocks | where: 'type', 'trust'
 -%}
 
-<section class="pl-hero-wrap" id="Hero-{{ section.id }}">
-  <div class="pl-hero">
-    <div class="pl-hero-grid">
+{%- if section.settings.announcement != blank -%}
+  <div class="ann">{{ section.settings.announcement }}</div>
+{%- endif -%}
 
-      {%- if badge_blocks.size > 0 -%}
-        <div class="pl-badges" aria-label="Product promises">
-          {%- for block in badge_blocks -%}
-            <div class="pl-badge" {{ block.shopify_attributes }}>
-              <span class="pl-badge__icon">
-                {%- case block.settings.icon -%}
-                  {%- when 'leaf' -%}
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
-                  {%- when 'shield' -%}
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/><path d="m9 12 2.2 2.2L15.4 10"/></svg>
-                  {%- else -%}
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.4"/><path d="M6.4 17.6 17.6 6.4"/></svg>
-                {%- endcase -%}
-              </span>
-              <span>{{ block.settings.label }}</span>
-            </div>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
-
-      <div class="pl-hero-copy">
-        <h1 class="pl-h1">{{ section.settings.heading }}</h1>
-
-        <div class="pl-rule">
-          <i></i>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
-          <i></i>
-        </div>
-
-        {%- if section.settings.subheading != blank -%}
-          <p class="pl-lede">{{ section.settings.subheading }}</p>
+<div class="wrap hero">
+  <div class="hgrid">
+    <div class="rv in">
+      {%- if section.settings.kicker != blank -%}<span class="kicker">{{ section.settings.kicker }}</span>{%- endif -%}
+      <h1 class="display d1">{{ section.settings.heading }}</h1>
+      {%- if section.settings.subheading != blank -%}<p class="lede">{{ section.settings.subheading }}</p>{%- endif -%}
+      <div class="hcta">
+        {%- if section.settings.btn1_label != blank -%}
+          <a class="btn btn--fill" href="{{ section.settings.btn1_link | default: '#' }}">{{ section.settings.btn1_label }}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></a>
         {%- endif -%}
-
-        <div class="pl-hero-cta">
-          {%- if section.settings.primary_button_label != blank -%}
-            <a class="pl-btn pl-btn--primary" href="{{ section.settings.primary_button_link | default: '#' }}">
-              {{ section.settings.primary_button_label }}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
-            </a>
-          {%- endif -%}
-          {%- if section.settings.secondary_button_label != blank -%}
-            <a class="pl-btn pl-btn--ghost" href="{{ section.settings.secondary_button_link | default: '#' }}">
-              {{ section.settings.secondary_button_label }}
-            </a>
-          {%- endif -%}
-        </div>
-
-        {%- if badge_blocks.size > 0 -%}
-          <div class="pl-badgestrip">
-            {%- for block in badge_blocks -%}
-              <div class="pl-badgestrip__item">
-                <span class="pl-badge__icon" style="background:none;border:none;width:auto;height:auto;margin:0 auto 6px;display:block">
-                  {%- case block.settings.icon -%}
-                    {%- when 'leaf' -%}
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
-                    {%- when 'shield' -%}
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/><path d="m9 12 2.2 2.2L15.4 10"/></svg>
-                    {%- else -%}
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.4"/><path d="M6.4 17.6 17.6 6.4"/></svg>
-                  {%- endcase -%}
-                </span>
-                {{ block.settings.label }}
-              </div>
-            {%- endfor -%}
-          </div>
+        {%- if section.settings.btn2_label != blank -%}
+          <a class="btn btn--line" href="{{ section.settings.btn2_link | default: '#' }}">{{ section.settings.btn2_label }}</a>
         {%- endif -%}
       </div>
-
-      {%- if stage_count > 0 -%}
-        <div class="pl-stage-outer">
-          <div
-            class="pl-stage"
-            data-pl-stage
-            data-section-id="{{ section.id }}"
-            role="group"
-            aria-roledescription="carousel"
-            aria-label="{{ section.settings.heading | strip_html | default: 'Featured pricing' }}"
-          >
-            {%- for block in stage_blocks -%}
-              {%- liquid
-                assign p = block.settings.product
-                assign variant = p.selected_or_first_available_variant
-                assign compare = variant.compare_at_price
-                assign price = variant.price
-                assign pack_size = forloop.index
-              -%}
-              <div
-                class="pl-slide{% if forloop.first %} is-active{% endif %}"
-                data-pl-slide
-                {% unless forloop.first %}aria-hidden="true"{% endunless %}
-                {{ block.shopify_attributes }}
-              >
-                <div class="pl-slide__stack pl-slide__stack--{{ pack_size }}">
-                  {%- for i in (1..pack_size) -%}
-                    {%- if p != blank -%}
-                      {%- if p.featured_image != blank -%}
-                        {%- liquid
-                          assign img_loading = 'lazy'
-                          if forloop.parentloop.first and forloop.first
-                            assign img_loading = 'eager'
-                          endif
-                        -%}
-                        {{
-                          p.featured_image
-                          | image_url: width: 400
-                          | image_tag: class: 'pl-slide__img', loading: img_loading, alt: p.title, widths: '200, 300, 400'
-                        }}
-                      {%- else -%}
-                        <div class="pl-slide__img" style="background:rgba(236,230,247,.1);border:1px dashed rgba(236,230,247,.3);border-radius:12px;width:120px;height:200px" role="img" aria-label="{{ p.title | default: 'Product image not set' }}"></div>
-                      {%- endif -%}
-                    {%- endif -%}
-                  {%- endfor -%}
-                </div>
-
-                {%- if p != blank -%}
-                  <div class="pl-ptag">
-                    <span class="pl-ptag__label">{{ block.settings.label | default: p.title }}</span>
-                    <span class="pl-ptag__val">
-                      <strong>{{ price | money }}</strong>
-                      {%- if compare > price -%}<s>{{ compare | money }}</s>{%- endif -%}
-                    </span>
-                    {%- if compare > price -%}
-                      {%- assign pct_off = compare | minus: price | times: 100.0 | divided_by: compare | round -%}
-                      <span class="pl-ptag__cut">{{ pct_off }}% off</span>
-                    {%- elsif block.settings.badge_text != blank -%}
-                      <span class="pl-ptag__cut">{{ block.settings.badge_text }}</span>
-                    {%- endif -%}
-                  </div>
-                {%- endif -%}
-              </div>
-            {%- endfor -%}
-          </div>
-
-          {%- if stage_count > 1 -%}
-            <div class="pl-dots" data-pl-dots role="tablist" aria-label="Show pricing tiers">
-              {%- for block in stage_blocks -%}
-                <button
-                  type="button"
-                  role="tab"
-                  aria-controls="pl-slide-{{ section.id }}-{{ forloop.index0 }}"
-                  aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
-                  aria-label="Show {{ forloop.index }} product{% if forloop.index > 1 %}s{% endif %}"
-                  data-pl-dot
-                ></button>
-              {%- endfor -%}
-            </div>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
-
     </div>
-  </div>
-</section>
 
-{%- if stage_count > 1 -%}
-  <script src="{{ 'section-hero.js' | asset_url }}" defer="defer"></script>
-{%- endif -%}
+    {%- if stage.size > 0 -%}
+      <div class="rv in">
+        <div class="hstage" data-stage role="group" aria-roledescription="carousel" aria-label="Featured products">
+          {%- for block in stage -%}
+            {%- assign p = block.settings.product -%}
+            {%- assign v = p.selected_or_first_available_variant -%}
+            <figure {% if forloop.first %}class="on"{% endif %} data-slide
+              data-label="{{ block.settings.label | default: p.title | escape }}"
+              data-price="{{ v.price | money }}"
+              data-compare="{% if v.compare_at_price > v.price %}{{ v.compare_at_price | money }}{% endif %}"
+              {% unless forloop.first %}aria-hidden="true"{% endunless %} {{ block.shopify_attributes }}>
+              {%- if p.featured_image != blank -%}
+                {%- if forloop.first -%}
+                  {{ p.featured_image | image_url: width: 700 | image_tag: loading: 'eager', widths: '360, 520, 700', alt: p.title }}
+                {%- else -%}
+                  {{ p.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', widths: '360, 520, 700', alt: p.title }}
+                {%- endif -%}
+              {%- endif -%}
+            </figure>
+          {%- endfor -%}
+
+          <div class="hmeta">
+            <div>
+              <span class="kicker" data-stage-label></span>
+              <strong data-stage-price></strong>
+            </div>
+            {%- if stage.size > 1 -%}
+              <div class="hdots" data-dots>
+                {%- for block in stage -%}
+                  <button type="button" aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                    aria-label="Show product {{ forloop.index }}"></button>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if trust.size > 0 -%}
+    <dl class="trust rv">
+      {%- for block in trust -%}
+        <div {{ block.shopify_attributes }}>
+          <dt>{{ block.settings.title }}</dt>
+          <dd>{{ block.settings.body }}</dd>
+        </div>
+      {%- endfor -%}
+    </dl>
+  {%- endif -%}
+</div>
+
+<script src="{{ 'purelane.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {
   "name": "Hero",
   "tag": "section",
-  "class": "section",
   "settings": [
-    {
-      "type": "html",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Clean<br>That<br><em>Lasts</em>",
-      "info": "Wrap the accent word in <em> tags to render it in the accent colour, matching the design."
-    },
-    {
-      "type": "textarea",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "Homecare that works on the toughest grime, made from plants. Kind to your home, your family and the world outside it."
-    },
-    {
-      "type": "text",
-      "id": "primary_button_label",
-      "label": "Primary button label",
-      "default": "Shop now"
-    },
-    {
-      "type": "url",
-      "id": "primary_button_link",
-      "label": "Primary button link"
-    },
-    {
-      "type": "text",
-      "id": "secondary_button_label",
-      "label": "Secondary button label",
-      "default": "How it works"
-    },
-    {
-      "type": "url",
-      "id": "secondary_button_link",
-      "label": "Secondary button link"
-    }
+    { "type": "html", "id": "announcement", "label": "Announcement bar", "default": "Free shipping on orders over ₹499 · <b>Refill packs now shipping</b>", "info": "Leave blank to hide." },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Plant-based homecare" },
+    { "type": "html", "id": "heading", "label": "Heading", "default": "Clean that<br><em>lasts</em>", "info": "Wrap a word in <em> to set it in the accent colour." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Made from plants, made for the grime that actually turns up in a home. Kind to the people in it, and to everything downstream." },
+    { "type": "text", "id": "btn1_label", "label": "Primary button", "default": "Shop the range" },
+    { "type": "url", "id": "btn1_link", "label": "Primary link" },
+    { "type": "text", "id": "btn2_label", "label": "Secondary button", "default": "How it's made" },
+    { "type": "url", "id": "btn2_link", "label": "Secondary link" }
   ],
   "blocks": [
     {
-      "type": "badge",
-      "name": "Promise badge",
+      "type": "stage",
+      "name": "Featured product",
+      "limit": 5,
       "settings": [
-        {
-          "type": "select",
-          "id": "icon",
-          "label": "Icon",
-          "options": [
-            { "value": "leaf", "label": "Leaf" },
-            { "value": "shield", "label": "Shield" },
-            { "value": "spark", "label": "Spark" }
-          ],
-          "default": "leaf"
-        },
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Label",
-          "default": "Plant powered"
-        }
+        { "type": "product", "id": "product", "label": "Product", "info": "Its image and live price drive this slide." },
+        { "type": "text", "id": "label", "label": "Label", "info": "Defaults to the product title." }
       ]
     },
     {
-      "type": "stage_product",
-      "name": "Pricing stage",
-      "limit": 3,
+      "type": "trust",
+      "name": "Trust point",
+      "limit": 4,
       "settings": [
-        {
-          "type": "product",
-          "id": "product",
-          "label": "Product",
-          "info": "Its featured image and price/compare-at price are shown. Add up to 3 of this block to match the 1 → 2 → 3 product crossfade in the design."
-        },
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Tag label",
-          "info": "Shown above the price, e.g. \"Single bottle\" or \"Any 2 products\". Defaults to the product title if left blank.",
-          "default": "Single bottle"
-        },
-        {
-          "type": "text",
-          "id": "badge_text",
-          "label": "Badge text (used only if the product has no compare-at price)"
-        }
+        { "type": "text", "id": "title", "label": "Title", "default": "Plant powered" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Coconut and corn derived, never petrochemical." }
       ]
     }
   ],
   "presets": [
-    {
-      "name": "Hero",
-      "blocks": [
-        { "type": "badge", "settings": { "icon": "leaf", "label": "Plant powered" } },
-        { "type": "badge", "settings": { "icon": "shield", "label": "Safe for kids & pets" } },
-        { "type": "badge", "settings": { "icon": "spark", "label": "Zero harsh chemicals" } },
-        { "type": "stage_product" }
-      ]
-    }
+    { "name": "Hero", "blocks": [ { "type": "stage" }, { "type": "stage" }, { "type": "stage" }, { "type": "trust" }, { "type": "trust" }, { "type": "trust" }, { "type": "trust" } ] }
   ]
 }
 {% endschema %}

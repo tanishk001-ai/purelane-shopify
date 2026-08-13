@@ -1,0 +1,64 @@
+{{ 'purelane.css' | asset_url | stylesheet_tag }}
+
+<section id="story" class="band pl-scope">
+  <div class="wrap band-split">
+    <div class="band-media rv">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '400, 600, 800', alt: section.settings.image.alt | default: section.settings.heading | strip_html }}
+      {%- elsif section.settings.product.featured_image != blank -%}
+        {{ section.settings.product.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '400, 600, 800', alt: section.settings.product.title }}
+      {%- endif -%}
+    </div>
+    <div class="rv">
+      {%- if section.settings.kicker != blank -%}<span class="kicker">{{ section.settings.kicker }}</span>{%- endif -%}
+      <h2 class="display d2" style="margin:14px 0 20px">{{ section.settings.heading }}</h2>
+      {%- if section.settings.body != blank -%}<p class="lede">{{ section.settings.body }}</p>{%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="stats">
+          {%- for block in section.blocks -%}
+            <div {{ block.shopify_attributes }}>
+              <b>{{ block.settings.figure }}</b>
+              <span>{{ block.settings.label }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <div style="margin-top:34px">
+          <a class="btn btn--onDark" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Story band",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Our story" },
+    { "type": "html", "id": "heading", "label": "Heading", "default": "Started in a kitchen<br>in Bengaluru" },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "We began because the floor cleaner under our sink listed nine ingredients and hid the rest." },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "product", "id": "product", "label": "Fallback product image", "info": "Used only when no image is chosen above." },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Read our story" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "figure", "label": "Figure", "info": "Only use a number you can stand behind." },
+        { "type": "text", "id": "label", "label": "Label" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Story band" } ]
+}
+{% endschema %}

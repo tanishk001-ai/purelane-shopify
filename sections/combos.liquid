@@ -1,259 +1,107 @@
 {{ 'purelane.css' | asset_url | stylesheet_tag }}
 
-<section class="pl-scope pl-sec" id="combos">
-  <div class="pl-wrap">
-    <div class="pl-panel-head">
-      {%- if section.settings.kicker != blank -%}
-        <span class="pl-kicker">{{ section.settings.kicker }}</span>
-      {%- endif -%}
-      {%- if section.settings.heading != blank -%}
-        <h2 class="pl-d2" style="margin-top:12px">{{ section.settings.heading }}</h2>
-      {%- endif -%}
-      <div class="pl-rule">
-        <i></i>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
-        <i></i>
+<section id="combos" class="pl-scope">
+  <div class="wrap">
+    <div class="shead rv">
+      <div>
+        {%- if section.settings.kicker != blank -%}<span class="kicker">{{ section.settings.kicker }}</span>{%- endif -%}
+        <h2 class="display d2">{{ section.settings.heading }}</h2>
       </div>
-      {%- if section.settings.description != blank -%}
-        <p class="pl-lede" style="margin:14px auto 0">{{ section.settings.description }}</p>
-      {%- endif -%}
+      {%- if section.settings.hint != blank -%}<span class="small">{{ section.settings.hint }}</span>{%- endif -%}
     </div>
   </div>
 
-  <div class="pl-wrap">
-    <ul class="pl-comborail" role="list" aria-label="{{ section.settings.heading | default: 'Combos' }}">
+  <div class="wrap rv">
+    <div class="rail" role="list" aria-label="{{ section.settings.heading | strip_html }}">
       {%- for block in section.blocks -%}
         {%- liquid
           assign bundle = block.settings.bundle_product
-          assign variant = bundle.selected_or_first_available_variant
+          assign v = bundle.selected_or_first_available_variant
 
-          # Component products drive both the image stack and the honest
-          # comparison price. Read straight off the block's own product-picker
-          # settings rather than looking handles up via all_products, which
-          # caps at 20 lookups per page and was silently dropping components
-          # past that limit.
-          assign component_total = 0
-          assign component_count = 0
-          for i in (1..5)
-            assign key = 'product_' | append: i
-            assign component = block.settings[key]
-            if component != blank
-              assign component_total = component_total | plus: component.selected_or_first_available_variant.price
-              assign component_count = component_count | plus: 1
+          # Components come straight off the block settings as product objects.
+          # Never resolved through all_products, which Shopify caps at 20
+          # lookups per page and would silently drop the later cards.
+          assign total = 0
+          assign count = 0
+          for n in (1..5)
+            assign key = 'product_' | append: n
+            assign c = block.settings[key]
+            if c != blank
+              assign total = total | plus: c.selected_or_first_available_variant.price
+              assign count = count | plus: 1
             endif
           endfor
-
-          # Savings is derived: what the same products cost individually today,
-          # minus what the bundle costs today. Never a hardcoded number, so it
-          # can't drift out of date when a merchant reprices anything.
-          assign savings = component_total | minus: variant.price
+          assign savings = total | minus: v.price
         -%}
-
-        <li class="pl-comboitem" {{ block.shopify_attributes }}>
-          <article class="pl-glass pl-combo{% if block.settings.highlight %} pl-combo--hero{% endif %}">
-            <div class="pl-combo__tray">
-              {%- if savings > 0 -%}
-                <span class="pl-combo__save">You save {{ savings | money }}</span>
-              {%- endif -%}
-              {%- if block.settings.flag != blank -%}
-                <span class="pl-combo__flag">{{ block.settings.flag }}</span>
-              {%- endif -%}
-
-              <div class="pl-stack">
-                {%- for i in (1..5) -%}
-                  {%- assign key = 'product_' | append: i -%}
-                  {%- assign component = block.settings[key] -%}
-                  {%- if component != blank -%}
-                    {%- unless forloop.first -%}
-                      <span class="pl-stack__plus" aria-hidden="true">+</span>
-                    {%- endunless -%}
-                    <span class="pl-stack__it">
-                      {%- if component.featured_image != blank -%}
-                        {{
-                          component.featured_image
-                          | image_url: width: 160
-                          | image_tag: loading: 'lazy', widths: '80, 120, 160', sizes: '80px', alt: component.title
-                        }}
-                      {%- else -%}
-                        <span class="pl-stack__tile" role="img" aria-label="{{ component.title }}">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
-                        </span>
-                      {%- endif -%}
-                      <span>{{ component.title }}</span>
-                    </span>
-                  {%- endif -%}
-                {%- endfor -%}
+        <article class="combo" role="listitem" {{ block.shopify_attributes }}>
+          <div class="combo__top">
+            {%- if savings > 0 -%}<span class="combo__save">Save {{ savings | money }}</span>{%- endif -%}
+            <div class="combo__stack">
+              {%- for n in (1..5) -%}
+                {%- assign key = 'product_' | append: n -%}
+                {%- assign c = block.settings[key] -%}
+                {%- if c != blank and c.featured_image != blank -%}
+                  {{ c.featured_image | image_url: width: 300 | image_tag: loading: 'lazy', widths: '150, 220, 300', sizes: '110px', alt: c.title }}
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+          <div class="combo__body">
+            <h3>{{ block.settings.title | default: bundle.title }}</h3>
+            {%- if block.settings.description != blank -%}<p>{{ block.settings.description }}</p>{%- endif -%}
+            {%- if bundle != blank -%}
+              <div class="prow">
+                <b>{{ v.price | money }}</b>
+                {%- if total > v.price -%}<s>{{ total | money }}</s>{%- endif -%}
               </div>
-            </div>
-
-            <div class="pl-combo__body">
-              <h3 class="pl-combo__title">{{ block.settings.title | default: bundle.title }}</h3>
-              {%- if component_count > 0 -%}
-                <div class="pl-combo__cnt">{{ component_count }} {{ component_count | pluralize: 'product', 'products' }}</div>
+              {%- if bundle.available -%}
+                {%- form 'product', bundle, class: 'pl-form' -%}
+                  <input type="hidden" name="id" value="{{ v.id }}">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" class="btn btn--fill btn--sm">{{ block.settings.button_label | default: 'Add set to cart' }}
+                    <span class="visually-hidden"> - {{ block.settings.title | default: bundle.title }}</span></button>
+                {%- endform -%}
+              {%- else -%}
+                <button type="button" class="btn btn--line btn--sm" disabled style="opacity:.45">Sold out</button>
               {%- endif -%}
-
-              {%- if block.settings.description != blank -%}
-                <p class="pl-combo__inc">{{ block.settings.description }}</p>
-              {%- endif -%}
-
-              {%- if bundle != blank -%}
-                <div class="pl-combo__prow">
-                  <strong>{{ variant.price | money }}</strong>
-                  {%- if component_total > variant.price -%}
-                    <s>{{ component_total | money }}</s>
-                    <em>Save {{ savings | money }}</em>
-                  {%- endif -%}
-                </div>
-                {%- if block.settings.fine_print != blank -%}
-                  <div class="pl-combo__fine">{{ block.settings.fine_print }}</div>
-                {%- endif -%}
-
-                {%- if bundle.available -%}
-                  {%- form 'product', bundle, class: 'pl-card__form' -%}
-                    <input type="hidden" name="id" value="{{ variant.id }}">
-                    <input type="hidden" name="quantity" value="1">
-                    <button
-                      type="submit"
-                      class="pl-btn pl-btn--full {% if block.settings.highlight %}pl-btn--primary{% else %}pl-btn--ghost{% endif %}"
-                    >
-                      {{ block.settings.button_label | default: 'Shop bundle' }}
-                      <span class="visually-hidden"> - {{ block.settings.title | default: bundle.title }}</span>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
-                    </button>
-                  {%- endform -%}
-                {%- else -%}
-                  <button type="button" class="pl-btn pl-btn--ghost pl-btn--full" disabled>
-                    Sold out<span class="visually-hidden"> - {{ bundle.title }}</span>
-                  </button>
-                {%- endif -%}
-              {%- elsif request.design_mode -%}
-                <p class="pl-combo__fine">Pick the bundle product in this block's settings to show its price and add-to-cart button.</p>
-              {%- endif -%}
-            </div>
-          </article>
-        </li>
+            {%- elsif request.design_mode -%}
+              <p class="small">Pick the bundle product in this block's settings.</p>
+            {%- endif -%}
+          </div>
+        </article>
       {%- endfor -%}
-    </ul>
-
-    <div class="pl-swipecue" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
-      {{ section.settings.swipe_label | default: 'Swipe for more combos' }}
     </div>
-
-    {%- if section.settings.rail_note != blank -%}
-      <p class="pl-railnote">{{ section.settings.rail_note }}</p>
-    {%- endif -%}
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Best selling combos",
+  "name": "Sets",
   "tag": "section",
-  "class": "section",
   "settings": [
-    {
-      "type": "text",
-      "id": "kicker",
-      "label": "Kicker",
-      "default": "Pre-built to save you money"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Best selling combos"
-    },
-    {
-      "type": "textarea",
-      "id": "description",
-      "label": "Description",
-      "default": "Swipe through the boxes people order most. Each one is already priced below buying the same products on their own."
-    },
-    {
-      "type": "text",
-      "id": "swipe_label",
-      "label": "Swipe hint",
-      "default": "Swipe for more combos"
-    },
-    {
-      "type": "textarea",
-      "id": "rail_note",
-      "label": "Note below the rail",
-      "default": "Tapping \"Shop bundle\" adds this combo to your cart. You can still change anything before you pay."
-    }
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Pre-built sets" },
+    { "type": "html", "id": "heading", "label": "Heading", "default": "Bought together,<br>priced together" },
+    { "type": "text", "id": "hint", "label": "Swipe hint", "default": "Swipe for more →" }
   ],
   "blocks": [
     {
       "type": "combo",
-      "name": "Combo",
+      "name": "Set",
       "settings": [
-        {
-          "type": "product",
-          "id": "bundle_product",
-          "label": "Bundle product",
-          "info": "The real product customers buy. Its price and availability drive this card, so the combo is a genuine purchasable item rather than a decorative tile."
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title",
-          "info": "Defaults to the bundle product's title if left blank."
-        },
-        {
-          "type": "textarea",
-          "id": "description",
-          "label": "Description"
-        },
-        {
-          "type": "header",
-          "content": "What's inside"
-        },
-        {
-          "type": "paragraph",
-          "content": "These products supply the image stack and the comparison price. The savings figure is calculated from their live prices, so it never goes stale."
-        },
+        { "type": "product", "id": "bundle_product", "label": "Bundle product", "info": "The real product customers buy. Its live price and availability drive this card." },
+        { "type": "text", "id": "title", "label": "Title", "info": "Defaults to the bundle product's title." },
+        { "type": "textarea", "id": "description", "label": "Description" },
+        { "type": "header", "content": "What's inside" },
+        { "type": "paragraph", "content": "These supply the image stack and the comparison price. Savings is calculated from their live prices, so it never goes stale." },
         { "type": "product", "id": "product_1", "label": "Product 1" },
         { "type": "product", "id": "product_2", "label": "Product 2" },
         { "type": "product", "id": "product_3", "label": "Product 3" },
         { "type": "product", "id": "product_4", "label": "Product 4" },
         { "type": "product", "id": "product_5", "label": "Product 5" },
-        {
-          "type": "header",
-          "content": "Presentation"
-        },
-        {
-          "type": "text",
-          "id": "flag",
-          "label": "Corner flag",
-          "info": "For example \"Most popular\" or \"Best value\". Leave blank to hide."
-        },
-        {
-          "type": "checkbox",
-          "id": "highlight",
-          "label": "Highlight this combo",
-          "default": false
-        },
-        {
-          "type": "text",
-          "id": "button_label",
-          "label": "Button label",
-          "default": "Shop bundle"
-        },
-        {
-          "type": "text",
-          "id": "fine_print",
-          "label": "Fine print",
-          "default": "Inclusive of all taxes"
-        }
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Add set to cart" }
       ]
     }
   ],
-  "presets": [
-    {
-      "name": "Best selling combos",
-      "blocks": [{ "type": "combo" }, { "type": "combo" }, { "type": "combo" }]
-    }
-  ]
+  "presets": [ { "name": "Sets", "blocks": [ { "type": "combo" }, { "type": "combo" }, { "type": "combo" } ] } ]
 }
 {% endschema %}
