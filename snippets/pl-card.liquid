@@ -15,7 +15,7 @@
   assign compare = v.compare_at_price
   assign tone = product.metafields.custom.tone.value | default: 'forest'
   assign badge = product.metafields.custom.card_badge.value
-  assign rating = product.metafields.reviews.rating.value
+  assign rating_obj = product.metafields.reviews.rating.value
   assign rating_count = product.metafields.reviews.rating_count.value
 -%}
 
@@ -44,9 +44,9 @@
 
   <h3><a href="{{ product.url }}" style="text-decoration:none">{{ product.title }}</a></h3>
 
-  {%- if show_rating and rating != blank -%}
+  {%- if show_rating and rating_obj != blank -%}
     <div class="rate">
-      <b>&#9733; {{ rating | round: 1 }}</b>
+      <b>&#9733; {{ rating_obj.rating | round: 1 }}</b>
       {%- if rating_count != blank %} &middot; {{ rating_count }} {{ rating_count | pluralize: 'review', 'reviews' }}{% endif -%}
     </div>
   {%- endif -%}
