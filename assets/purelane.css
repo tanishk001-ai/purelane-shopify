@@ -1387,3 +1387,14 @@ a.pl-btn {
     transform: none;
   }
 }
+
+#shop, #combos, #bundles, #reviews {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+#reviews .pl-revrail { contain: layout paint; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .pl-glass { background: linear-gradient(158deg, rgba(31,26,56,.92), rgba(23,16,43,.95)); }
+  .pl-glass-2 { background: linear-gradient(158deg, rgba(20,40,40,.92), rgba(0,48,46,.95)); }
+  .pl-btn--ghost { background: rgba(40,34,66,.9); }
+}
