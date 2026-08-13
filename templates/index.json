@@ -3,30 +3,12 @@
     "purelane_hero": {
       "type": "hero",
       "blocks": {
-        "badge_1": {
-          "type": "badge",
-          "settings": { "icon": "leaf", "label": "Plant<br>powered" }
-        },
-        "badge_2": {
-          "type": "badge",
-          "settings": { "icon": "shield", "label": "Safe for<br>kids &amp; pets" }
-        },
-        "badge_3": {
-          "type": "badge",
-          "settings": { "icon": "spark", "label": "Zero harsh<br>chemicals" }
-        },
-        "stage_1": {
-          "type": "stage_product",
-          "settings": { "label": "Single bottle" }
-        },
-        "stage_2": {
-          "type": "stage_product",
-          "settings": { "label": "Any 2 products", "badge_text": "" }
-        },
-        "stage_3": {
-          "type": "stage_product",
-          "settings": { "label": "Any 3 products", "badge_text": "" }
-        }
+        "badge_1": { "type": "badge", "settings": { "icon": "leaf", "label": "Plant<br>powered" } },
+        "badge_2": { "type": "badge", "settings": { "icon": "shield", "label": "Safe for<br>kids &amp; pets" } },
+        "badge_3": { "type": "badge", "settings": { "icon": "spark", "label": "Zero harsh<br>chemicals" } },
+        "stage_1": { "type": "stage_product", "settings": { "label": "Single bottle" } },
+        "stage_2": { "type": "stage_product", "settings": { "label": "Any 2 products" } },
+        "stage_3": { "type": "stage_product", "settings": { "label": "Any 3 products" } }
       },
       "block_order": ["badge_1", "badge_2", "badge_3", "stage_1", "stage_2", "stage_3"],
       "settings": {
@@ -35,80 +17,181 @@
         "primary_button_label": "Shop now",
         "primary_button_link": "#shop",
         "secondary_button_label": "How it works",
-        "secondary_button_link": "#how"
+        "secondary_button_link": "#combos"
       }
     },
-    "image_banner": {
-      "type": "image-banner",
+    "purelane_reviews": {
+      "type": "reviews",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "review_1": {
+          "type": "review",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "rating": 5,
+            "title": "Works like a charm",
+            "body": "Finally an eco option that cleans as well as the chemical detergent I used for years, and it smells better.",
+            "author": "Anita",
+            "verified": true
           }
         },
-        "button": {
-          "type": "buttons",
+        "review_2": {
+          "type": "review",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "rating": 5,
+            "title": "Best dishwash ever",
+            "body": "Our old dishwash left my help with dry, cracked skin. That stopped completely after we switched.",
+            "author": "Priya",
+            "verified": true
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Great product, great packaging",
+            "body": "Very soft on hands with a lovely fragrance, and it feels good to be using far less plastic.",
+            "author": "Sunita",
+            "verified": true
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Dog friendly",
+            "body": "We switched because chemical floor cleaners were setting off my dog's allergies. No reactions since.",
+            "author": "Rohit S.",
+            "verified": true
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Sparkling taps again",
+            "body": "Hard water had ruined our bathroom fittings. Two sprays and the scale wipes straight off, no scrubbing.",
+            "author": "Verified buyer",
+            "verified": true
           }
         }
       },
-      "block_order": [
-        "heading",
-        "button"
-      ],
+      "block_order": ["review_1", "review_2", "review_3", "review_4", "review_5"],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "kicker": "That's what they said",
+        "aggregate_rating": "4.8",
+        "aggregate_count": "8,000+",
+        "secondary_stat": "Loved by 12 lakh+ homes",
+        "speed": 52
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "purelane_combos": {
+      "type": "combos",
+      "blocks": {
+        "combo_1": {
+          "type": "combo",
+          "settings": {
+            "title": "Kitchen essentials",
+            "description": "Everything for a sparkling kitchen, no need to pick separately.",
+            "flag": "Most popular",
+            "button_label": "Shop bundle",
+            "fine_print": "Inclusive of all taxes"
+          }
+        },
+        "combo_2": {
+          "type": "combo",
+          "settings": {
+            "title": "Laundry care bundle",
+            "description": "Softer, fresher wash, all in one box.",
+            "button_label": "Shop bundle",
+            "fine_print": "Inclusive of all taxes"
+          }
+        },
+        "combo_3": {
+          "type": "combo",
+          "settings": {
+            "title": "Complete home bundle",
+            "description": "Our biggest saving box, covering every room in the house.",
+            "flag": "Best value",
+            "highlight": true,
+            "button_label": "Shop bundle",
+            "fine_print": "Inclusive of all taxes"
+          }
+        },
+        "combo_4": {
+          "type": "combo",
+          "settings": {
+            "title": "Bathroom deep clean",
+            "description": "A complete bathroom refresh in one box.",
+            "button_label": "Shop bundle",
+            "fine_print": "Inclusive of all taxes"
+          }
+        }
+      },
+      "block_order": ["combo_1", "combo_2", "combo_3", "combo_4"],
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
+        "kicker": "Pre-built to save you money",
+        "heading": "Best selling combos",
+        "description": "Swipe through the boxes people order most. Each one is already priced below buying the same products on their own.",
+        "swipe_label": "Swipe for more combos",
+        "rail_note": "Tapping \"Shop bundle\" adds this combo to your cart. You can still change anything before you pay."
+      }
+    },
+    "purelane_bundles": {
+      "type": "bundles",
+      "blocks": {
+        "tier_1": {
+          "type": "tier",
+          "settings": {
+            "tag": "Starter",
+            "quantity": 2,
+            "features": "Pick any two products\nFree shipping across India",
+            "button_label": "Build this box"
+          }
+        },
+        "tier_2": {
+          "type": "tier",
+          "settings": {
+            "tag": "Most popular",
+            "quantity": 3,
+            "highlight": true,
+            "features": "Pick any three products\nCovers kitchen and laundry\nFree shipping across India",
+            "button_label": "Build this box"
+          }
+        },
+        "tier_3": {
+          "type": "tier",
+          "settings": {
+            "tag": "Whole home",
+            "quantity": 5,
+            "features": "Pick any five products\nEvery room in one order\nFree shipping across India",
+            "button_label": "Build this box"
+          }
+        }
+      },
+      "block_order": ["tier_1", "tier_2", "tier_3"],
+      "settings": {
+        "kicker": "Build your bundle",
+        "heading": "One box. Every room.",
+        "description": "Mix and match across kitchen, laundry, home and skin. One flat price, no code needed, free shipping either way."
+      }
+    },
+    "purelane_shop": {
+      "type": "shop-grid",
+      "settings": {
+        "kicker": "Bestsellers",
+        "heading": "Loved by 30,000 homes",
         "collection": "all",
         "products_to_show": 8,
         "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
         "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "show_rating": true
       }
     }
   },
   "order": [
     "purelane_hero",
-    "image_banner",
-    "featured_collection"
+    "purelane_reviews",
+    "purelane_combos",
+    "purelane_bundles",
+    "purelane_shop"
   ]
 }

@@ -1,0 +1,184 @@
+{{ 'purelane-shared.css' | asset_url | stylesheet_tag }}
+{{ 'section-reviews.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign reviews = section.blocks
+  assign review_count = reviews.size
+  # The track is duplicated so the marquee can loop seamlessly. The clone is
+  # hidden from assistive tech so screen reader users hear each review once.
+-%}
+
+<section class="pl-scope pl-sec" id="reviews">
+  <div class="pl-wrap">
+    <div class="pl-revhead">
+      {%- if section.settings.kicker != blank -%}
+        <span class="pl-kicker">{{ section.settings.kicker }}</span>
+      {%- endif -%}
+      {%- if section.settings.aggregate_rating != blank -%}
+        <span class="pl-agg">
+          <span class="pl-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <b>{{ section.settings.aggregate_rating }}</b>
+          {%- if section.settings.aggregate_count != blank %} from {{ section.settings.aggregate_count }} reviews{% endif -%}
+        </span>
+      {%- endif -%}
+      {%- if section.settings.secondary_stat != blank -%}
+        <span class="pl-agg">{{ section.settings.secondary_stat }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if review_count > 0 -%}
+    <div class="pl-revrail" data-pl-marquee>
+      <div class="pl-revtrack" style="--pl-marquee-duration:{{ section.settings.speed }}s">
+        {%- for block in reviews -%}
+          <article class="pl-glass-2 pl-rcard" {{ block.shopify_attributes }}>
+            {%- if block.settings.rating > 0 -%}
+              <div class="pl-stars" aria-label="{{ block.settings.rating }} out of 5 stars">
+                {%- for i in (1..block.settings.rating) -%}&#9733;{%- endfor -%}
+              </div>
+            {%- endif -%}
+            {%- if block.settings.title != blank -%}
+              <h3 class="pl-rcard__title">{{ block.settings.title }}</h3>
+            {%- endif -%}
+            {%- if block.settings.body != blank -%}
+              <p>{{ block.settings.body }}</p>
+            {%- endif -%}
+            <div class="pl-rcard__who">
+              {%- if block.settings.verified -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>
+              {%- endif -%}
+              <b>{{ block.settings.author | default: 'Verified buyer' }}</b>
+              {%- if block.settings.product != blank -%}
+                <span>&middot; {{ block.settings.product.title }}</span>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+
+        {%- comment -%}Duplicate track for a seamless loop, hidden from AT.{%- endcomment -%}
+        <div class="pl-revclone" aria-hidden="true">
+          {%- for block in reviews -%}
+            <article class="pl-glass-2 pl-rcard">
+              {%- if block.settings.rating > 0 -%}
+                <div class="pl-stars">{%- for i in (1..block.settings.rating) -%}&#9733;{%- endfor -%}</div>
+              {%- endif -%}
+              {%- if block.settings.title != blank -%}
+                <h3 class="pl-rcard__title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              {%- if block.settings.body != blank -%}
+                <p>{{ block.settings.body }}</p>
+              {%- endif -%}
+              <div class="pl-rcard__who">
+                {%- if block.settings.verified -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+                {%- endif -%}
+                <b>{{ block.settings.author | default: 'Verified buyer' }}</b>
+                {%- if block.settings.product != blank -%}
+                  <span>&middot; {{ block.settings.product.title }}</span>
+                {%- endif -%}
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Reviews rail",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "That's what they said"
+    },
+    {
+      "type": "text",
+      "id": "aggregate_rating",
+      "label": "Average rating",
+      "default": "4.8"
+    },
+    {
+      "type": "text",
+      "id": "aggregate_count",
+      "label": "Review count",
+      "default": "8,000+"
+    },
+    {
+      "type": "text",
+      "id": "secondary_stat",
+      "label": "Secondary stat",
+      "default": "Loved by 12 lakh+ homes"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 20,
+      "max": 90,
+      "step": 2,
+      "unit": "s",
+      "label": "Time for one full loop",
+      "default": 52,
+      "info": "Higher is slower. The rail pauses on hover and on keyboard focus."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Rating",
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Headline",
+          "default": "Works like a charm"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Review",
+          "default": "Finally an eco option that cleans as well as the chemical detergent I used for years, and it smells better."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Verified buyer"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product reviewed",
+          "info": "Linked so the attribution updates automatically if the product is renamed."
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Show verified tick",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews rail",
+      "blocks": [{ "type": "review" }, { "type": "review" }, { "type": "review" }, { "type": "review" }]
+    }
+  ]
+}
+{% endschema %}

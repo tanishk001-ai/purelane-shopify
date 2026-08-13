@@ -1,0 +1,229 @@
+{{ 'purelane-shared.css' | asset_url | stylesheet_tag }}
+{{ 'section-bundles.css' | asset_url | stylesheet_tag }}
+
+<section class="pl-scope pl-sec" id="bundles">
+  <div class="pl-wrap">
+    {%- if section.settings.heading != blank or section.settings.description != blank -%}
+      <div class="pl-glass pl-sec-pad" style="margin-bottom:16px">
+        <div class="pl-panel-head" style="margin-bottom:0">
+          {%- if section.settings.kicker != blank -%}
+            <span class="pl-kicker">{{ section.settings.kicker }}</span>
+          {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="pl-d2" style="margin-top:12px">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.description != blank -%}
+            <p class="pl-lede" style="margin:0 auto">{{ section.settings.description }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    <ul class="pl-tiers" role="list">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign bundle = block.settings.bundle_product
+          assign variant = bundle.selected_or_first_available_variant
+          assign qty = block.settings.quantity
+
+          # Per-product price is derived from the live bundle price and the tier
+          # quantity, so it stays correct after any repricing. Guarded against a
+          # zero quantity to avoid dividing by zero.
+          assign per_unit = 0
+          if qty > 0
+            assign per_unit = variant.price | divided_by: qty
+          endif
+
+          capture image_handles
+            echo block.settings.image_product_1.handle
+            echo '|'
+            echo block.settings.image_product_2.handle
+            echo '|'
+            echo block.settings.image_product_3.handle
+            echo '|'
+            echo block.settings.image_product_4.handle
+            echo '|'
+            echo block.settings.image_product_5.handle
+          endcapture
+          assign image_list = image_handles | split: '|'
+        -%}
+
+        <li {{ block.shopify_attributes }}>
+          <article class="pl-glass pl-tier{% if block.settings.highlight %} pl-tier--best{% endif %}">
+            {%- if block.settings.tag != blank -%}
+              <span class="pl-tier__tag">{{ block.settings.tag }}</span>
+            {%- endif -%}
+
+            <div class="pl-tierpix{% if qty >= 5 %} pl-tierpix--five{% endif %}" aria-hidden="true">
+              {%- for handle in image_list -%}
+                {%- if handle != blank -%}
+                  {%- assign p = all_products[handle] -%}
+                  {%- if p != blank and p.featured_image != blank -%}
+                    {{
+                      p.featured_image
+                      | image_url: width: 140
+                      | image_tag: loading: 'lazy', widths: '70, 105, 140', sizes: '70px', alt: ''
+                    }}
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+            {%- if qty > 0 -%}
+              <div class="pl-tier__qty">{{ qty }}<small>{{ qty | pluralize: 'Product', 'Products' }}</small></div>
+            {%- endif -%}
+
+            {%- if bundle != blank -%}
+              <div class="pl-tier__price">
+                {{ variant.price | money }}
+                {%- if variant.compare_at_price > variant.price -%}
+                  <s>{{ variant.compare_at_price | money }}</s>
+                {%- endif -%}
+              </div>
+              {%- if per_unit > 0 -%}
+                <p class="pl-tier__unit">Flat {{ per_unit | money }} per product</p>
+              {%- endif -%}
+            {%- endif -%}
+
+            {%- assign feature_string = block.settings.features | newline_to_br | split: '<br />' -%}
+            {%- if block.settings.features != blank -%}
+              <ul class="pl-tier__list">
+                {%- for feature in feature_string -%}
+                  {%- assign clean = feature | strip -%}
+                  {%- if clean != blank -%}
+                    <li>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>
+                      {{ clean }}
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+
+            {%- if bundle != blank -%}
+              {%- if bundle.available -%}
+                {%- form 'product', bundle, class: 'pl-card__form' -%}
+                  <input type="hidden" name="id" value="{{ variant.id }}">
+                  <input type="hidden" name="quantity" value="1">
+                  <button
+                    type="submit"
+                    class="pl-btn pl-btn--full {% if block.settings.highlight %}pl-btn--primary{% else %}pl-btn--ghost{% endif %}"
+                  >
+                    {{ block.settings.button_label | default: 'Build this box' }}
+                    <span class="visually-hidden"> - {{ block.settings.tag | default: bundle.title }}</span>
+                  </button>
+                {%- endform -%}
+              {%- else -%}
+                <button type="button" class="pl-btn pl-btn--ghost pl-btn--full" disabled>
+                  Sold out<span class="visually-hidden"> - {{ bundle.title }}</span>
+                </button>
+              {%- endif -%}
+            {%- elsif request.design_mode -%}
+              <p class="pl-tier__unit">Pick the bundle product in this block's settings to show its price.</p>
+            {%- endif -%}
+          </article>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bundles",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Build your bundle"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "One box. Every room."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Mix and match across kitchen, laundry, home and skin. One flat price, no code needed, free shipping either way."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tier",
+      "name": "Tier",
+      "settings": [
+        {
+          "type": "product",
+          "id": "bundle_product",
+          "label": "Bundle product",
+          "info": "The real product this tier sells. Its live price drives both the headline price and the per-product figure."
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Tag",
+          "default": "Starter"
+        },
+        {
+          "type": "range",
+          "id": "quantity",
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "label": "Products in this tier",
+          "default": 2,
+          "info": "Used to calculate the per-product price shown under the headline price."
+        },
+        {
+          "type": "textarea",
+          "id": "features",
+          "label": "Feature list",
+          "info": "One feature per line.",
+          "default": "Pick any two products\nFree shipping across India"
+        },
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Highlight this tier",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Build this box"
+        },
+        {
+          "type": "header",
+          "content": "Tier imagery"
+        },
+        {
+          "type": "paragraph",
+          "content": "Products shown in the small row at the top of the card. Decorative only, so products without an image are skipped rather than leaving a gap."
+        },
+        { "type": "product", "id": "image_product_1", "label": "Image 1" },
+        { "type": "product", "id": "image_product_2", "label": "Image 2" },
+        { "type": "product", "id": "image_product_3", "label": "Image 3" },
+        { "type": "product", "id": "image_product_4", "label": "Image 4" },
+        { "type": "product", "id": "image_product_5", "label": "Image 5" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundles",
+      "blocks": [
+        { "type": "tier", "settings": { "tag": "Starter", "quantity": 2 } },
+        { "type": "tier", "settings": { "tag": "Most popular", "quantity": 3, "highlight": true } },
+        { "type": "tier", "settings": { "tag": "Whole home", "quantity": 5 } }
+      ]
+    }
+  ]
+}
+{% endschema %}
