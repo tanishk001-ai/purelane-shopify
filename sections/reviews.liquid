@@ -1,6 +1,3 @@
-{{ 'purelane-shared.css' | asset_url | stylesheet_tag }}
-{{ 'section-reviews.css' | asset_url | stylesheet_tag }}
-
 {%- liquid
   assign reviews = section.blocks
   assign review_count = reviews.size
