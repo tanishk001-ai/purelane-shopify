@@ -53,7 +53,7 @@ header{position:sticky;top:0;z-index:30;background:rgba(251,248,242,.88);backdro
 @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
 
 /* ---- hero ---- */
-.hero{padding:clamp(52px,7vw,104px) 0 clamp(40px,5vw,72px)}
+.hero{padding-block:clamp(52px,7vw,104px) clamp(40px,5vw,72px)}
 .hgrid{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(30px,5vw,76px);align-items:center}
 @media(max-width:900px){.hgrid{grid-template-columns:1fr;gap:40px}}
 .hero .d1{margin:20px 0 24px}
