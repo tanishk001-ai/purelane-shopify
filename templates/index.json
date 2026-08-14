@@ -36,7 +36,7 @@
         "kicker": "The range",
         "heading": "Everything a home needs",
         "link_label": "View all products",
-        "collection": "all",
+        "collection": "retail-products",
         "products_to_show": 8,
         "show_rating": true,
         "show_tabs": true
