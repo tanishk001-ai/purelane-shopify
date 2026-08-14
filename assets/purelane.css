@@ -6,16 +6,16 @@
    ========================================================================== */
 
 .pl-hero-wrap {
-  --pl-ink: #171029;
+  --pl-ink: #f4f0fb;
   --pl-brand: #4b3a8f;
-  --pl-paper: #ece6f7;
-  --pl-paper-2: rgba(236, 230, 247, 0.78);
-  --pl-paper-3: rgba(236, 230, 247, 0.56);
-  --pl-accent: #f0a03c;
+  --pl-paper: #241a3d;
+  --pl-paper-2: rgba(36, 26, 61, 0.78);
+  --pl-paper-3: rgba(36, 26, 61, 0.56);
+  --pl-accent: #b8701c;
   --pl-accent-2: #c9761d;
-  --pl-surface: #faf7fd;
-  --pl-glass-bg: linear-gradient(158deg, rgba(236, 230, 247, 0.15), rgba(75, 58, 143, 0.2) 58%, rgba(23, 16, 43, 0.28));
-  --pl-glass-line: rgba(236, 230, 247, 0.22);
+  --pl-surface: #17102b;
+  --pl-glass-bg: linear-gradient(158deg, rgba(255, 255, 255, 0.80), rgba(236, 230, 247, 0.56) 58%, rgba(222, 212, 240, 0.50));
+  --pl-glass-line: rgba(75, 58, 143, 0.16);
   --pl-radius: 26px;
   --pl-radius-sm: 16px;
   --pl-maxw: 1180px;
@@ -447,19 +447,19 @@ a.pl-btn {
    ========================================================================== */
 
 .pl-scope {
-  --pl-ink: #171029;
+  --pl-ink: #f4f0fb;
   --pl-brand: #4b3a8f;
-  --pl-paper: #ece6f7;
-  --pl-paper-2: rgba(236, 230, 247, 0.78);
-  --pl-paper-3: rgba(236, 230, 247, 0.56);
-  --pl-accent: #f0a03c;
+  --pl-paper: #241a3d;
+  --pl-paper-2: rgba(36, 26, 61, 0.78);
+  --pl-paper-3: rgba(36, 26, 61, 0.56);
+  --pl-accent: #b8701c;
   --pl-accent-2: #c9761d;
-  --pl-surface: #faf7fd;
-  --pl-glass-bg: linear-gradient(158deg, rgba(236, 230, 247, 0.15), rgba(75, 58, 143, 0.2) 58%, rgba(23, 16, 43, 0.28));
-  --pl-glass-bg-2: linear-gradient(158deg, rgba(236, 230, 247, 0.1), rgba(0, 48, 46, 0.22));
-  --pl-glass-line: rgba(236, 230, 247, 0.22);
-  --pl-glass-shadow: 0 26px 74px rgba(18, 12, 34, 0.44);
-  --pl-glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  --pl-surface: #17102b;
+  --pl-glass-bg: linear-gradient(158deg, rgba(255, 255, 255, 0.80), rgba(236, 230, 247, 0.56) 58%, rgba(222, 212, 240, 0.50));
+  --pl-glass-bg-2: linear-gradient(158deg, rgba(255, 255, 255, 0.70), rgba(200, 190, 220, 0.40));
+  --pl-glass-line: rgba(75, 58, 143, 0.16);
+  --pl-glass-shadow: 0 22px 54px rgba(58, 44, 112, 0.13);
+  --pl-glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.92);
   --pl-radius: 26px;
   --pl-radius-sm: 16px;
   --pl-maxw: 1180px;
