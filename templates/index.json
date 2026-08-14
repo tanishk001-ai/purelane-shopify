@@ -210,7 +210,7 @@
       "settings": {
         "kicker": "Bestsellers",
         "heading": "Loved by 30,000 homes",
-        "collection": "all",
+        "collection": "retail-products",
         "products_to_show": 8,
         "columns_desktop": 4,
         "columns_mobile": "2",

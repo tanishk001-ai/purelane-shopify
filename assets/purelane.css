@@ -1061,6 +1061,15 @@ a.pl-btn {
   color: var(--pl-paper-2);
   font-weight: 600;
 }
+.pl-stack__it .pl-stack__label {
+  /* Higher specificity than .pl-stack__it span above, so display: -webkit-box
+     actually wins and the clamp takes effect. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .pl-stack__plus {
   flex: 0 0 9px;
   color: var(--pl-accent);
