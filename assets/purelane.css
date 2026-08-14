@@ -22,7 +22,7 @@
   --pl-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 
   position: relative;
-  background: linear-gradient(178deg, #0b8578 0%, #017069 24%, #4b3a8f 68%, #01524e 100%);
+  background: linear-gradient(178deg, #fbfffb 0%, #eafaec 24%, #d6f1dc 54%, #bfe8ca 100%);
   color: var(--pl-paper);
   overflow: clip;
 }
@@ -467,7 +467,7 @@ a.pl-btn {
   --pl-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 
   position: relative;
-  background: linear-gradient(178deg, #067c71 0%, #00625d 30%, #014e4a 64%, #023c39 100%);
+  background: linear-gradient(178deg, #f0fbf2 0%, #d9f2df 28%, #bde6c8 60%, #a2d9b6 100%);
   color: var(--pl-paper);
 }
 
